@@ -22,7 +22,7 @@ export type SidebarNavItem = {
 export const sidebarNavItems: SidebarNavItem[] = [
   { label: "Home", icon: Home },
   {
-    label: "New Chat",
+    label: "Chat",
     icon: MessageSquarePlus,
     className: "border border-sidebar-border bg-sidebar-accent font-medium",
     iconClassName: "text-accent",
