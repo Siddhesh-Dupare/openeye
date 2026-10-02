@@ -1,0 +1,16 @@
+# apps/web (Next.js)
+/apps/web/node_modules/
+/apps/web/.next/
+/apps/web/out/
+/apps/web/build/
+/apps/web/coverage/
+/apps/web/.vercel/
+/apps/web/.DS_Store
+/apps/web/*.pem
+/apps/web/npm-debug.log*
+/apps/web/yarn-debug.log*
+/apps/web/yarn-error.log*
+/apps/web/.pnpm-debug.log*
+/apps/web/.env*
+/apps/web/*.tsbuildinfo
+/apps/web/next-env.d.ts

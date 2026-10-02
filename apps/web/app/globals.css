@@ -1,0 +1,143 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-inter: var(--font-inter);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: #080B12;
+  --foreground: #F4F7FB;
+  --text-secondary: #9AA6B8;
+  --text-muted: #667085;
+  --card: #0F1420;
+  --card-foreground: #F4F7FB;
+  --popover: #0F1420;
+  --popover-foreground: #F4F7FB;
+  --primary: #7C6CFF;
+  --primary-foreground: #F4F7FB;
+  --secondary: #3B82F6;
+  --secondary-foreground: #F4F7FB;
+  --muted: #151B29;
+  --muted-foreground: #9AA6B8;
+  --accent: #35C2E6;
+  --accent-foreground: #080B12;
+  --destructive: #F26D7D;
+  --success: #5EE39A;
+  --warning: #F5C76B;
+  --border: #202838;
+  --input: #202838;
+  --ring: #7C6CFF;
+  --chart-1: #7C6CFF;
+  --chart-2: #3B82F6;
+  --chart-3: #35C2E6;
+  --chart-4: #5EE39A;
+  --chart-5: #F5C76B;
+  --radius: 0.625rem;
+  --sidebar: #0F1420;
+  --sidebar-foreground: #F4F7FB;
+  --sidebar-primary: #7C6CFF;
+  --sidebar-primary-foreground: #F4F7FB;
+  --sidebar-accent: #151B29;
+  --sidebar-accent-foreground: #F4F7FB;
+  --sidebar-border: #202838;
+  --sidebar-ring: #7C6CFF;
+}
+
+.dark {
+  --background: #080B12;
+  --foreground: #F4F7FB;
+  --text-secondary: #9AA6B8;
+  --text-muted: #667085;
+  --card: #0F1420;
+  --card-foreground: #F4F7FB;
+  --popover: #0F1420;
+  --popover-foreground: #F4F7FB;
+  --primary: #7C6CFF;
+  --primary-foreground: #F4F7FB;
+  --secondary: #3B82F6;
+  --secondary-foreground: #F4F7FB;
+  --muted: #151B29;
+  --muted-foreground: #9AA6B8;
+  --accent: #35C2E6;
+  --accent-foreground: #080B12;
+  --destructive: #F26D7D;
+  --success: #5EE39A;
+  --warning: #F5C76B;
+  --border: #202838;
+  --input: #202838;
+  --ring: #7C6CFF;
+  --chart-1: #7C6CFF;
+  --chart-2: #3B82F6;
+  --chart-3: #35C2E6;
+  --chart-4: #5EE39A;
+  --chart-5: #F5C76B;
+  --sidebar: #0F1420;
+  --sidebar-foreground: #F4F7FB;
+  --sidebar-primary: #7C6CFF;
+  --sidebar-primary-foreground: #F4F7FB;
+  --sidebar-accent: #151B29;
+  --sidebar-accent-foreground: #F4F7FB;
+  --sidebar-border: #202838;
+  --sidebar-ring: #7C6CFF;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
