@@ -14,3 +14,8 @@
 /apps/web/.env*
 /apps/web/*.tsbuildinfo
 /apps/web/next-env.d.ts
+
+# apps/api (Node.js)
+/apps/api/node_modules/
+/apps/api/dist/
+/apps/api/.env*
