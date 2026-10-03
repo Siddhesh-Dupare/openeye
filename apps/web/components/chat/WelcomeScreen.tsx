@@ -1,14 +1,7 @@
 import { ArrowUp, CornerDownLeft, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-
-const suggestedPrompts = [
-  "Find me a software engineering job",
-  "Track my job applications",
-  "Help me manage my AlgoLens project",
-  "Plan my week",
-];
+import { suggestedPrompts } from "@/data/welcome-screen";
 
 export default function WelcomeScreen() {
   return (
@@ -19,11 +12,11 @@ export default function WelcomeScreen() {
         </h1>
 
         <div className="flex min-h-44 w-full flex-col justify-between rounded-2xl border border-border bg-card p-4 shadow-lg shadow-background/20 transition-colors focus-within:border-primary/60">
-          <Input
-            type="text"
+          <textarea
             placeholder="What do you want to accomplish?"
             aria-label="What do you want to accomplish?"
-            className="h-10 border-0 bg-transparent px-0 text-base shadow-none placeholder:text-text-secondary focus-visible:ring-0"
+            className="h-20 min-h-[60px] max-h-48 w-full border-0 bg-transparent px-0 text-base shadow-none placeholder:text-text-secondary focus-visible:ring-0 resize-none focus:outline-none"
+            rows={3}
           />
 
           <div className="flex items-center justify-between">
