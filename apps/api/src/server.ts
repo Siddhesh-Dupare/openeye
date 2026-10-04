@@ -1,78 +1,20 @@
 import Fastify from "fastify";
-import { z } from "zod";
-import { pool } from "./db";
-import { userSchema } from "./schemas/user";
+
+import { userRoutes } from "./routes/users.js";
+import { goalRoutes } from "./routes/goals.js";
+import { taskRoutes } from "./routes/tasks.js";
+import { evidenceRoutes } from "./routes/evidences.js";
+import { goalStateRoutes } from "./routes/goalStates.js";
 
 const server = Fastify({
   logger: true,
 });
 
-server.get("/health", async () => {
-
-  const result = await pool.query("SELECT NOW()");
-
-  return {
-    status: "ok",
-    service: "open-eye api",
-    database: result.rows[0].now,
-  }
-});
-
-server.get("/users", async () => {
-  const result = await pool.query("SELECT id, name, created_at FROM users ORDER BY created_at DESC");
-
-  return {
-    users: result.rows,
-  };
-});
-
-server.get("/goals", async () => {
-  const result = await pool.query("SELECT * FROM goals");
-
-  return {
-    goals: result.rows,
-  };
-});
-
-server.get("/tasks", async () => {
-  const result = await pool.query("SELECT * FROM tasks");
-
-  return {
-    tasks: result.rows
-  };
-});
-
-server.get("/evidence", async () => {
-  const result = await pool.query("SELECT * FROM evidence");
-
-  return {
-    evidence: result.rows
-  };
-});
-
-server.get("/goal_states", async () => {
-  const result = await pool.query("SELECT * FROM goal_states");
-
-  return {
-    goal_states: result.rows
-  };
-});
-
-// NOTE: When user enter his/her data
-server.post("/users", async (request, reply) => {
-  const parsed = userSchema.safeParse(request.body);
-
-  if (!parsed.success) {
-    return reply.code(400).send({
-      error: "Invalid request",
-      details: z.treeifyError(parsed.error),
-    })
-  }
-
-  const result = await pool.query("INSERT INTO users (name) VALUES ($1) RETURNING id, name, created_at", [parsed.data.name]);
-
-  return reply.code(201).send(result.rows[0]);
-});
+await server.register(userRoutes);
+await server.register(goalRoutes);
+await server.register(taskRoutes);
+await server.register(evidenceRoutes);
+await server.register(goalStateRoutes);
 
 const start = async () => {
   try {
