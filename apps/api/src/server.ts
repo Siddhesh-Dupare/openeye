@@ -23,7 +23,7 @@ const start = async () => {
       host: "127.0.0.1",
     });
   } catch (error) {
-    server.log.error("Failed to start server", error);
+    server.log.error(error, "Failed to start server");
     process.exit(1);
   }
 };
