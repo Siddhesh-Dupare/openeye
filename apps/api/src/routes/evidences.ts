@@ -1,14 +1,12 @@
 import { FastifyInstance } from "fastify";
-import { pool } from "../db.js";
+import { getEvidence } from "../services/evidenceService.js";
 
 export async function evidenceRoutes(server: FastifyInstance) {
   server.get("/evidence", async () => {
-    const result = await pool.query(`
-      SELECT * FROM evidence
-      `);
+    const evidence = await getEvidence();
 
     return {
-      evidence: result.rows
+      evidence
     };
   });
 }

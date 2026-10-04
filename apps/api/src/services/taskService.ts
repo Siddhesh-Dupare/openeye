@@ -1,17 +1,19 @@
 import { pool } from "../db.js";
 
-export async function getGoals() {
+export async function getTasks() {
   const result = await pool.query(
     `
     SELECT
       id,
-      user_id,
+      goal_id,
       title,
       description,
       status,
+      priority,
+      due_at,
       created_at,
       updated_at
-    FROM goals
+    FROM tasks
     ORDER BY created_at DESC
     `
   );
@@ -19,25 +21,27 @@ export async function getGoals() {
   return result.rows;
 }
 
-export async function createGoal(
-  user_id: string,
+export async function createTask(
+  goalId: string,
   title: string,
   description: string | undefined
 ) {
   const result = await pool.query(
     `
-    INSERT INTO goals (user_id, title, description)
+    INSERT INTO tasks (goal_id, title, description)
     VALUES ($1, $2, $3)
     RETURNING
       id,
-      user_id,
+      goal_id,
       title,
       description,
       status,
+      priority,
+      due_at,
       created_at,
       updated_at
     `,
-    [user_id, title, description]
+    [goalId, title, description]
   );
 
   return result.rows[0];

@@ -1,14 +1,12 @@
 import { FastifyInstance } from "fastify";
-import { pool } from "../db.js";
+import { getGoalStates } from "../services/goalStateService.js";
 
 export async function goalStateRoutes(server: FastifyInstance) {
   server.get("/goal_states", async () => {
-    const result = await pool.query(`
-      SELECT * FROM goal_states
-      `);
+    const goal_states = await getGoalStates();
 
     return {
-      goal_states: result.rows
+      goal_states
     };
   });
 }

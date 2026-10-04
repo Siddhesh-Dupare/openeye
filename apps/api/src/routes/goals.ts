@@ -1,16 +1,14 @@
 import { FastifyInstance } from "fastify";
 import { goalSchema } from "../schemas/goal.js";
-import { pool } from "../db.js";
 import { z } from "zod";
+import { getGoals, createGoal } from "../services/goalService.js";
 
 export async function goalRoutes(server: FastifyInstance) {
   server.get("/goals", async () => {
-    const result = await pool.query(`
-      SELECT * FROM goals
-      `);
+    const goals = await getGoals();
 
     return {
-      goals: result.rows,
+      goals,
     };
   });
 
@@ -24,11 +22,11 @@ export async function goalRoutes(server: FastifyInstance) {
       })
     }
 
-    const result = await pool.query(`
-      INSERT INTO goals (user_id, title, description)
-      VALUES ($1, $2, $3)
-      RETURNING id, user_id, title, description, status, created_at, updated_at`,
-      [parsed.data.user_id, parsed.data.title, parsed.data.description]);
+    const result = await createGoal(
+      parsed.data.user_id,
+      parsed.data.title,
+      parsed.data.description,
+    );
 
     return reply.code(201).send(result.rows[0]);
   });
