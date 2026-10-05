@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import { taskSchema, updateTaskSchema } from "../schemas/task.js";
 import { z } from "zod";
 import { getTasks, createTask, updateTask } from "../services/taskService.js";
+import { createStateEvent } from "../services/stateEventService.js";
 
 export async function taskRoutes(server: FastifyInstance) {
   server.get("/tasks", async () => {
@@ -43,14 +44,27 @@ export async function taskRoutes(server: FastifyInstance) {
 
     const params = request.params as { id: string };
 
-    const task = await updateTask(
+    const result = await updateTask(
       params.id,
       parsed.data,
     );
 
-    if (!task) {
+    if (!result) {
       return reply.code(404).send({
         error: "Task not found"
+      });
+    }
+
+    const { task, previousStatus } = result;
+
+    if (previousStatus !== "completed" && task.status === "completed") {
+      await createStateEvent({
+        goalId: task.goal_id,
+        eventType: "task_completed",
+        description: `Task ${task.title} has been completed`,
+        data: {
+          taskId: task.id,
+        }
       });
     }
 

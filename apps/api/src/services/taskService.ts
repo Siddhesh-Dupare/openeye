@@ -59,6 +59,22 @@ export async function updateTask(
   taskId: string,
   data: UpdateTaskParams,
 ) {
+
+  const currentTask = await pool.query(
+    `
+    SELECT
+      status
+    FROM tasks
+    WHERE id = $1
+    `,
+    [taskId]
+  );
+
+  if (currentTask.rows.length === 0)
+    return null;
+
+  const previousStatus = currentTask.rows[0].status;
+
   const fields: string[] = [];
   const values: unknown[] = [taskId];
 
@@ -113,5 +129,8 @@ export async function updateTask(
     values,
   );
 
-  return result.rows[0];
+  return {
+    task: result.rows[0],
+    previousStatus,
+  }
 }

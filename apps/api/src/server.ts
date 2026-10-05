@@ -5,6 +5,7 @@ import { goalRoutes } from "./routes/goals.js";
 import { taskRoutes } from "./routes/tasks.js";
 import { evidenceRoutes } from "./routes/evidences.js";
 import { goalStateRoutes } from "./routes/goalStates.js";
+import { stateEventsRoutes } from "./routes/stateEvents.js";
 
 const server = Fastify({
   logger: true,
@@ -15,6 +16,7 @@ await server.register(goalRoutes);
 await server.register(taskRoutes);
 await server.register(evidenceRoutes);
 await server.register(goalStateRoutes);
+await server.register(stateEventsRoutes);
 
 const start = async () => {
   try {
