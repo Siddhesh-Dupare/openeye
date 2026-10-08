@@ -1,4 +1,6 @@
 import { pool } from "../db.js";
+import type { Pool, PoolClient } from "pg";
+import { createStateEvent } from "./stateEventService.js";
 
 export async function getTasks() {
   const result = await pool.query(
@@ -58,9 +60,10 @@ type UpdateTaskParams = {
 export async function updateTask(
   taskId: string,
   data: UpdateTaskParams,
+  client: Pool | PoolClient = pool,
 ) {
 
-  const currentTask = await pool.query(
+  const currentTask = await client.query(
     `
     SELECT
       status
@@ -109,7 +112,7 @@ export async function updateTask(
 
   fields.push(`updated_at = NOW()`);
 
-  const result = await pool.query(
+  const result = await client.query(
     `
     UPDATE tasks
     SET
@@ -132,5 +135,51 @@ export async function updateTask(
   return {
     task: result.rows[0],
     previousStatus,
+  }
+}
+
+export async function updateTaskWithStateEvent(
+  taskId: string,
+  data: UpdateTaskParams
+) {
+
+  const client = await pool.connect();
+
+  try {
+    await client.query("BEGIN");
+
+    const result = await updateTask(
+      taskId,
+      data,
+      client
+    );
+
+    if (!result) {
+      await client.query("ROLLBACK");
+      return null;
+    }
+
+    const { task, previousStatus } = result;
+
+    if (previousStatus !== "completed" && task.status === "completed") {
+      await createStateEvent({
+        goalId: task.goal_id,
+        eventType: "task_completed",
+        description: `Task ${task.title} has been completed`,
+        data: {
+          taskId: task.id,
+        }
+      }, client);
+    }
+
+    await client.query("COMMIT");
+
+    return task;
+
+  } catch (error) {
+    await client.query("ROLLBACK");
+    throw error;
+  } finally {
+    client.release();
   }
 }

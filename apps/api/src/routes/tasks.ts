@@ -1,8 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { taskSchema, updateTaskSchema } from "../schemas/task.js";
 import { z } from "zod";
-import { getTasks, createTask, updateTask } from "../services/taskService.js";
-import { createStateEvent } from "../services/stateEventService.js";
+import { getTasks, createTask, updateTaskWithStateEvent } from "../services/taskService.js";
 
 export async function taskRoutes(server: FastifyInstance) {
   server.get("/tasks", async () => {
@@ -44,30 +43,16 @@ export async function taskRoutes(server: FastifyInstance) {
 
     const params = request.params as { id: string };
 
-    const result = await updateTask(
-      params.id,
-      parsed.data,
-    );
+    // NOTE: Creating a transaction rollback
+    const task = updateTaskWithStateEvent(params.id, parsed.data);
 
-    if (!result) {
+    if (!task) {
       return reply.code(404).send({
-        error: "Task not found"
-      });
-    }
-
-    const { task, previousStatus } = result;
-
-    if (previousStatus !== "completed" && task.status === "completed") {
-      await createStateEvent({
-        goalId: task.goal_id,
-        eventType: "task_completed",
-        description: `Task ${task.title} has been completed`,
-        data: {
-          taskId: task.id,
-        }
+        error: "Task not found",
       });
     }
 
     return reply.send(task);
+
   });
 }

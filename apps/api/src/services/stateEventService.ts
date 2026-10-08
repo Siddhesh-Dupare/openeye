@@ -1,4 +1,5 @@
 import { pool } from "../db.js";
+import type { Pool, PoolClient } from "pg";
 
 type CreateStateEventParams = {
   goalId: string;
@@ -26,9 +27,10 @@ export async function getStateEvents() {
 }
 
 export async function createStateEvent(
-  params: CreateStateEventParams
+  params: CreateStateEventParams,
+  client: Pool | PoolClient = pool,
 ) {
-  const result = await pool.query(
+  const result = await client.query(
     `
     INSERT INTO state_events (goal_id, event_type, description, data)
     VALUES ($1, $2, $3, $4)
