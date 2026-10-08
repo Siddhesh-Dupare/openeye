@@ -34,6 +34,28 @@ describe("Task Service", () => {
     expect(taskCreation.title).toBe("Test write the email task");
     expect(taskCreation.description).toBe("Test write the email task to a friend about the new project");
     expect(taskCreation.status).toBe("pending");
+
+    const result = await pool.query(`
+      SELECT
+        id,
+        goal_id,
+        title,
+        description,
+        status,
+        priority,
+        due_at,
+        created_at,
+        updated_at
+      FROM tasks
+      WHERE id = $1
+    `, [taskCreation.id]);
+
+    expect(result.rows.length).toBe(1);
+    expect(result.rows[0].goal_id).toBe(goalCreation.id);
+    expect(result.rows[0].title).toBe("Test write the email task");
+    expect(result.rows[0].description).toBe("Test write the email task to a friend about the new project");
+    expect(result.rows[0].status).toBe("pending");
+    expect(result.rows[0].priority).toBe("medium");
   });
 
   afterAll(async () => {
