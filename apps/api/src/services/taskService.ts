@@ -69,6 +69,7 @@ export async function updateTask(
       status
     FROM tasks
     WHERE id = $1
+    FOR UPDATE
     `,
     [taskId]
   );
