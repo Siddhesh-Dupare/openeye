@@ -11,6 +11,9 @@ vi.mock("../src/services/userService", () => ({
 }));
 
 import { buildServer } from "../src/server";
+import { getUsers } from "../src/services/userService";
+
+const mockedGetUsers = vi.mocked(getUsers);
 
 describe("GET /users", () => {
   const server = buildServer();
@@ -33,5 +36,17 @@ describe("GET /users", () => {
         createdAt: "2026-01-01T00:00:00.000Z",
       },
     ]);
+  });
+
+  test("returns an empty array when no users are found", async () => {
+    mockedGetUsers.mockResolvedValueOnce([]);
+
+    const response = await server.inject({
+      method: "GET",
+      url: "/users",
+    });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.json()).toEqual([]);
   });
 });
