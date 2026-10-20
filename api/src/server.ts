@@ -1,24 +1,25 @@
 import Fastify from "fastify";
+import userRoute from "./routes/userRoute";
 
-const server = Fastify({
-  logger: true,
-});
+export function buildServer() {
+  const server = Fastify({ logger: true });
 
-server.get("/", async (request, response) => {
-  response.code(200).send({
+  server.get("/", async () => ({
     message: "Hello",
-  });
-});
+  }));
+  server.register(userRoute);
 
-const PORT = 3000;
+  return server;
+}
 
-const start = async () => {
+export async function startServer(port = Number(process.env.PORT) || 3000) {
+  const server = buildServer();
+
   try {
-    await server.listen({ port: PORT });
-  } catch (err) {
-    server.log.error(err, `Failed to start server at PORT ${PORT}`);
-    process.exit(1);
+    await server.listen({ port });
+    return server;
+  } catch (error) {
+    await server.close();
+    throw error;
   }
-};
-
-start();
+}

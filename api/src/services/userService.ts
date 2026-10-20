@@ -1,14 +1,7 @@
-export function getUsers() {
-  const users = pool.query(
-    `
-    SELECT
-      id,
-      name,
-      created_at
-    FROM users
-    ORDER BY created_at DESC
-    `,
-  );
+import { desc } from "drizzle-orm";
+import { db } from "../../lib/db/client";
+import { users } from "../../lib/db/schema";
 
-  return users;
+export function getUsers() {
+  return db.select().from(users).orderBy(desc(users.createAt));
 }
