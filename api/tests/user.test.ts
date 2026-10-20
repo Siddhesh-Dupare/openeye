@@ -5,7 +5,7 @@ vi.mock("../src/services/userService", () => ({
     {
       id: 1,
       name: "Test User",
-      createdAt: new Date("2026-01-01T00:00:00.000Z"),
+      createAt: new Date("2026-01-01T00:00:00.000Z"),
     },
   ]),
 }));
@@ -33,7 +33,7 @@ describe("GET /users", () => {
       {
         id: 1,
         name: "Test User",
-        createdAt: "2026-01-01T00:00:00.000Z",
+        createAt: "2026-01-01T00:00:00.000Z",
       },
     ]);
   });
@@ -48,5 +48,21 @@ describe("GET /users", () => {
 
     expect(response.statusCode).toBe(200);
     expect(response.json()).toEqual([]);
+  });
+
+  test("returs error when name field is not provided", async () => {
+    mockedGetUsers.mockResolvedValueOnce([
+      {
+        id: 2,
+        createAt: "2026-01-01T00:00:00.000Z",
+      },
+    ]);
+
+    const response = await server.inject({
+      method: "GET",
+      url: "/users",
+    });
+
+    expect(response.statusCode).toBe(500);
   });
 });
