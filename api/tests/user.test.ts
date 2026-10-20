@@ -5,7 +5,7 @@ vi.mock("../src/services/userService", () => ({
     {
       id: 1,
       name: "Test User",
-      createAt: new Date("2026-01-01T00:00:00.000Z"),
+      createdAt: new Date("2026-01-01T00:00:00.000Z"),
     },
   ]),
 }));
@@ -33,7 +33,7 @@ describe("GET /users", () => {
       {
         id: 1,
         name: "Test User",
-        createAt: "2026-01-01T00:00:00.000Z",
+        createdAt: "2026-01-01T00:00:00.000Z",
       },
     ]);
   });
@@ -54,7 +54,7 @@ describe("GET /users", () => {
     mockedGetUsers.mockResolvedValueOnce([
       {
         id: 2,
-        createAt: "2026-01-01T00:00:00.000Z",
+        createdAt: "2026-01-01T00:00:00.000Z",
       },
     ]);
 

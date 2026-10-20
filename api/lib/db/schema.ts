@@ -5,7 +5,7 @@ export const users = pgTable("users", {
     .primaryKey()
     .generatedByDefaultAsIdentity(),
   name: text("name").notNull(),
-  createAt: timestamp("created_at", { withTimezone: true })
+  createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),
 });
