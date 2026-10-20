@@ -1,5 +1,6 @@
 import Fastify from "fastify";
 import userRoute from "./routes/userRoute";
+import goalRoute from "./routes/goalRoute";
 
 export function buildServer() {
   const server = Fastify({ logger: true });
@@ -8,6 +9,7 @@ export function buildServer() {
     message: "Hello",
   }));
   server.register(userRoute);
+  server.register(goalRoute);
 
   return server;
 }

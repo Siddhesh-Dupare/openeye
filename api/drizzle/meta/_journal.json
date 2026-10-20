@@ -8,6 +8,13 @@
       "when": 1792484933143,
       "tag": "0000_empty_radioactive_man",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792490995779,
+      "tag": "0001_naive_ted_forrester",
+      "breakpoints": true
     }
   ]
 }
